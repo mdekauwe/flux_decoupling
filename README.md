@@ -1,7 +1,8 @@
 # Ideas and perspectives: How coupled is the vegetation to the boundary layer?
 
-[Belinda E. Medlyn](https://bmedlyn.wordpress.com/),
 [Martin G. De Kauwe](https://mdekauwe.github.io/),
+[Belinda E. Medlyn](https://bmedlyn.wordpress.com/)
+
 
 ## Overview
 
@@ -22,7 +23,7 @@ $ make
 
 ## Dependancies
 
-You will need a few python packages, namely `numpy`, `pandas`, `matplotlib` `scipy` and `lmfit`. The fitting code also exploits the python MPI library `multiprocessing` to speed things up. 
+You will need a few python packages, namely `numpy`, `pandas`, `matplotlib` `scipy` and `lmfit`. The fitting code also exploits the python MPI library `multiprocessing` to speed things up.
 
 ## Contacts
 
