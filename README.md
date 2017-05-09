@@ -1,7 +1,8 @@
 # Ideas and perspectives: How coupled is the vegetation to the boundary layer?
 
-[Martin G. De Kauwe](https://mdekauwe.github.io/) and
-[Belinda E. Medlyn](https://bmedlyn.wordpress.com/)
+[Martin G. De Kauwe](https://mdekauwe.github.io/),
+[Belinda E. Medlyn](https://bmedlyn.wordpress.com/),
+Jürgen Knauer
 
 
 ## Overview
