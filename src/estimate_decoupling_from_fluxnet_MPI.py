@@ -50,7 +50,8 @@ class FitOmega(object):
 
         self.out_cols = ["site","name","country","year","latitude",\
                          "longitude","PFT","n","ebr","omega","wind",\
-                         "ga","gs","lai","canopy_ht","tower_ht","map"]
+                         "ga","gs","lai","canopy_ht","tower_ht","map",
+                         "sprecip"]
 
         # W/m2 = 1000 (kg/m3) * 2.45 (MJ/kg) * 10^6 (J/kg) * 1 mm/day * \
         #        (1/86400) (day/s) * (1/1000) (mm/m)
@@ -265,7 +266,7 @@ class FitOmega(object):
                          d['lat'], d['lon'], d['pft'], d['num_pts'],
                          d['EBR'], d['omega'], d['wind'], d['ga'],
                          d['gs'], d['lai'], d['tower_ht'], d['canopy_ht'],
-                         d['ppt']],
+                         d['ppt'], d['sprecip']],
                          index=self.out_cols)
 
 
@@ -275,7 +276,7 @@ class FitOmega(object):
     def write_bad_row(self, df_out, d):
         row = pd.Series([d['site'], d['name'], d['country'], d['yr'],
                          d['lat'], d['lon'], d['pft'], -999.9,
-                         -999.9, -999.9, -999.9, -999.9,
+                         -999.9, -999.9, -999.9, -999.9, -999.9,
                          -999.9, -999.9, -999.9, -999.9, -999.9],
                          index=self.out_cols)
 
@@ -363,10 +364,12 @@ class FitOmega(object):
             if pptx < 0.0:
                 pptx = -999.9
             elif len(df_p) < total_length * 0.9:
-                print("%.2f " % (len(df_p)/float(total_length)*100.0))
+                #print("%.2f " % (len(df_p)/float(total_length)*100.0))
                 pptx = -999.9
 
         d['ppt'] = pptx
+
+
 
         # filter three most productive months
         df = df[(df.index.month == months[0]) |
@@ -388,6 +391,24 @@ class FitOmega(object):
         #    d['EBR'] = top / bot
         #else:
         #    d['EBR'] = -999.9
+
+        # figure out 3 mth precip
+        df_sp = df.copy()
+        df_sp = df_sp[df_sp['Precip_fqcOK'] == 1]
+        df_sp = df_sp.groupby(df_sp.index.year).sum()
+
+        if len(df_p) == 0:
+            pptxx = -999.9
+        else:
+            pptxx = df_sp.Precip_f.values[0]
+            if pptx < 0.0:
+                pptxx = -999.9
+            elif len(df_p) < total_length * 0.9:
+                pptxx = -999.9
+
+        d['sprecip'] = pptxx
+
+        #d['sprecip'] = np.sum(df[df["Precip_f"]>=0.0].Precip_f)
 
         # filter daylight hours, good LE data, GPP, CO2
         #
