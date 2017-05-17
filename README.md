@@ -2,7 +2,8 @@
 
 [Martin G. De Kauwe](https://mdekauwe.github.io/),
 [Belinda E. Medlyn](https://bmedlyn.wordpress.com/),
-Jürgen Knauer
+Jürgen Knauer,
+Christopher Williams
 
 
 ## Overview
