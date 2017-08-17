@@ -117,7 +117,7 @@ def main(infname, ofname):
     #plt.show()
     #sys.exit()
 
-    df['c4_frac'] = np.ones((len)(df)) * -999.9
+    df['c4_frac'] = np.ones(len(df)) * -999.9
     for i, row in df.iterrows():
 
         # find closest match
