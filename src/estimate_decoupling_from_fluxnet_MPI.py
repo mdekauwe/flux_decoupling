@@ -346,6 +346,12 @@ class FitOmega(object):
         return (months, missing_nee)
 
     def filter_dataframe(self, df, d, months):
+        # Only trusted half hourly data are used, defined as original data or
+        # those empirically modeled with a high degree of confidence
+        # (quality control flag fqcOK = 1, see www.fluxdata.org for details
+        # and definition, and Reichstein et al. [2005, Appendix A]). From
+        # Williams WATER RESOURCES RESEARCH, VOL. 48, W06523,
+        # doi:10.1029/2011WR011586, 2012
 
         # For the fully coupled this is just filler, it gets set in the PM
         # version
@@ -368,8 +374,6 @@ class FitOmega(object):
                 pptx = -999.9
 
         d['ppt'] = pptx
-
-
 
         # filter three most productive months
         df = df[(df.index.month == months[0]) |
@@ -397,18 +401,16 @@ class FitOmega(object):
         df_sp = df_sp[df_sp['Precip_fqcOK'] == 1]
         df_sp = df_sp.groupby(df_sp.index.year).sum()
 
-        if len(df_p) == 0:
+        if len(df_sp) == 0:
             pptxx = -999.9
         else:
             pptxx = df_sp.Precip_f.values[0]
             if pptx < 0.0:
                 pptxx = -999.9
-            elif len(df_p) < total_length * 0.9:
+            elif len(df_sp) < total_length * 0.9:
                 pptxx = -999.9
 
         d['sprecip'] = pptxx
-
-        #d['sprecip'] = np.sum(df[df["Precip_f"]>=0.0].Precip_f)
 
         # filter daylight hours, good LE data, GPP, CO2
         #
@@ -419,7 +421,6 @@ class FitOmega(object):
                     (df['LE_fqcOK'] == 1) &
                     (df['H_fqcOK'] == 1) &
                     (df['VPD_fqcOK'] == 1) &
-                    (df['NEE_GPP_qcOK'] == 1) &
                     (df['Precip_fqcOK'] == 1) &
                     (df['WS_fqcOK'] == 1) &
                     (df['ET'] > 0.01 / 1000.) & # check in mmol, but units are mol
@@ -434,7 +435,6 @@ class FitOmega(object):
                     (df['LE_fqcOK'] == 1) &
                     (df['H_fqcOK'] == 1) &
                     (df['VPD_fqcOK'] == 1) &
-                    (df['NEE_GPP_qcOK'] == 1) &
                     (df['Precip_fqcOK'] == 1) &
                     (df['WS_fqcOK'] == 1) &
                     (df['VPD_f'] > 0.05) &
