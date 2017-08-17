@@ -398,14 +398,19 @@ class FitOmega(object):
 
         # figure out 3 mth precip
         df_sp = df.copy()
+        #total_length = len(df_sp.resample("D").sum())
+        total_length = len(df_sp)
         df_sp = df_sp[df_sp['Precip_fqcOK'] == 1]
-        df_sp = df_sp.groupby(df_sp.index.year).sum()
+
+
 
         if len(df_sp) == 0:
             pptxx = -999.9
         else:
-            pptxx = df_sp.Precip_f.values[0]
-            if pptx < 0.0:
+            df_spx = df_sp.resample("D").sum()
+            pptxx = np.sum(df_spx.Precip_f)
+
+            if pptxx < 0.0:
                 pptxx = -999.9
             elif len(df_sp) < total_length * 0.9:
                 pptxx = -999.9
