@@ -101,7 +101,8 @@ def main():
             good.append(s)
         else:
             bad.append(s)
-
+    xlabs = []
+    xpos = []
     vals = np.zeros(0)
     xindex = np.arange(len(good))
     for i,s in enumerate(good):
@@ -113,14 +114,18 @@ def main():
                      markeredgecolor="lightgrey",
                      alpha=0.8, capsize=False)
 
-        ax1.annotate(s, (x-0.3, 0.07),
-                     rotation=90, fontsize=8)
+        #ax1.annotate(s, (x-0.3, 0.07),
+        #             rotation=90, fontsize=8)
 
         vals = np.append(vals, site.omega.values)
 
+        xlabs.append(s)
+        xpos.append(x)
 
     ax1.axhline(y=np.mean(vals), xmin=0.04, xmax=xindex[-1]/60+0.035,
                 ls="-", color="lightgrey")
+
+    ax1.axvline(x=x+2.5, ls="--", color="grey")
 
     vals = np.zeros(0)
     xindex = (xindex[-1]+5) + np.arange(len(bad))
@@ -132,15 +137,21 @@ def main():
                      color="black",
                      markeredgecolor="lightgrey",
                      alpha=0.8, capsize=False)
-        ax1.annotate(s, (x-0.3, 0.07),
-                     rotation=90, fontsize=8)
+        #ax1.annotate(s, (x-0.3, 0.07),
+        #             rotation=90, fontsize=8)
         vals = np.append(vals, site.omega.values)
+
+        xlabs.append(s)
+        xpos.append(x)
+
+    ax1.axvline(x=x+2.5, ls="--", color="grey")
 
     ax1.annotate("(a)", (-1, 0.56), fontsize=12, fontweight="bold")
     ax1.annotate("(b)", (12, 0.56), fontsize=12, fontweight="bold")
     ax1.annotate("(c)", (45, 0.56), fontsize=12, fontweight="bold")
     ax1.axhline(y=np.mean(vals), xmin=xindex[0]/60+0.015, xmax=xindex[-1]/60-0.04,
                 ls="-", color="lightgrey")
+
 
     vals = np.zeros(0)
     xindex = (xindex[-1]+5) + np.arange(len(poor_samples))
@@ -152,15 +163,28 @@ def main():
                      color="black",
                      markeredgecolor="lightgrey",
                      alpha=0.8, capsize=False)
-        ax1.annotate(s, (x-0.3, 0.07),
-                     rotation=90, fontsize=8)
+        #ax1.annotate(s, (x-0.3, 0.1),
+        #             rotation=90, fontsize=8, annotation_clip=True)
+
+        xlabs.append(s)
+        xpos.append(x)
+
+
+
+        #trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
+        #ax1.annotate(s, xy=(10, -0.1), xycoords=trans)
+        #plt.text(-0.3, 0.1, s, fontsize=8, transform=plt.gcf().transFigure)
+
         vals = np.append(vals, site.omega.values)
+
+    ax1.set_xticklabels(xlabs, rotation=90, fontsize=8)
+    ax1.set_xticks(xpos)
 
     ax1.axhline(y=np.mean(vals), xmin=xindex[0]/60-0.06, xmax=xindex[-1]/60-0.09,
                 ls="-", color="lightgrey")
     ax1.set_ylim(0, 0.6)
 
-    plt.setp(ax1.get_xticklabels(), visible=False)
+    #plt.setp(ax1.get_xticklabels(), visible=False)
 
     #ax.set_xlim(-60, 90)
 
