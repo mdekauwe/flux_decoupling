@@ -33,7 +33,7 @@ def main():
     sns.set_style({"xtick.direction": "in","ytick.direction": "in"})
 
     #colour_list = ["#E69F00","#56B4E9", "#009E73", "#CC79A7"]
-    colour_list = brewer2mpl.get_map('Set2', 'qualitative', 8).mpl_colors
+    colour_list = brewer2mpl.get_map('Set2', 'qualitative', 6).mpl_colors
 
     golden_mean = 0.6180339887498949
     width = 9
@@ -67,23 +67,23 @@ def main():
 
     ax1 = fig.add_subplot(111)
     forest_PFTs = ['ENF', 'EBF', 'DBF', 'TRF']
-    nonforest_PFTs = ['SHB', 'C3G','C3C']
-    grasses_PFTs = ['C3G']
+    nonforest_PFTs = ['SHB', 'GRA','C3C', 'C4C']
+    grasses_PFTs = ['GRA']
+
 
     forest = df[df.PFT.isin(forest_PFTs)]
     nonforest = df[df.PFT.isin(nonforest_PFTs)]
     grasses = df[df.PFT.isin(grasses_PFTs)]
 
 
-    # dump shit data
     x = []
     y = []
     grasses = grasses[grasses.sprecip > 0.0]
     for site in np.unique(grasses.site):
         s = grasses[grasses.site == site]
 
-        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-                 color=colour_list[0], alpha=0.5, yerr=np.std(s.omega))
+        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="s",
+                 color=colour_list[0], alpha=0.9, yerr=np.std(s.omega))
         x.append(np.mean(s.sprecip))
         y.append(np.mean(s.omega))
     x = np.asarray(x)
@@ -95,14 +95,17 @@ def main():
     (m, b) = np.polyfit(x,y, 1)
     print(p_value, r_value, r_value**2)
     if p_value <= 0.05:
-        ax1.plot(x, m*x+b, ls="-", color=colour_list[0], label="r = %.2f" % (r_value))
+        #ax1.plot(x, m*x+b, ls="-", color=colour_list[0], label="r = %.2f" % (r_value))
+        ax1.plot(x, m*x+b, ls="-", color=colour_list[0])
+
 
     #forest = forest[forest.sprecip > 0.0]
     #for site in np.unique(forest.site):
     #    s = forest[forest.site == site]
     #    ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-    #             color="black", alpha=0.5, yerr=np.std(s.omega),
+    #             color="black", alpha=0.9, yerr=np.std(s.omega),
     #             xerr=np.std(s.sprecip))
+
 
     x = []
     y = []
@@ -112,7 +115,7 @@ def main():
     for site in np.unique(enf.site):
         s = enf[enf.site == site]
         ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-                 color=colour_list[1], alpha=0.5, yerr=np.std(s.omega))
+                 color=colour_list[1], alpha=0.9, yerr=np.std(s.omega))
         x.append(np.mean(s.sprecip))
         y.append(np.mean(s.omega))
     x = np.asarray(x)
@@ -124,7 +127,9 @@ def main():
     (m, b) = np.polyfit(x,y, 1)
     print(p_value, r_value, r_value**2)
     if p_value <= 0.05:
-        ax1.plot(x, m*x+b, ls="-", color=colour_list[1], label="r = %.2f" % (r_value))
+        #ax1.plot(x, m*x+b, ls="-", color=colour_list[1], label="r = %.2f" % (r_value))
+        ax1.plot(x, m*x+b, ls="-", color=colour_list[1])
+
 
     x = []
     y = []
@@ -133,8 +138,8 @@ def main():
     ebf = ebf[ebf.sprecip > 0.0]
     for site in np.unique(ebf.site):
         s = ebf[ebf.site == site]
-        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-                 color=colour_list[2], alpha=0.5, yerr=np.std(s.omega))
+        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="p",
+                 color=colour_list[2], alpha=0.9, yerr=np.std(s.omega))
         x.append(np.mean(s.sprecip))
         y.append(np.mean(s.omega))
     x = np.asarray(x)
@@ -145,7 +150,9 @@ def main():
     (m, b) = np.polyfit(x,y, 1)
     print(p_value, r_value, r_value**2)
     if p_value <= 0.05:
-        ax1.plot(x, m*x+b, ls="-", color=colour_list[2], label="r = %.2f" % (r_value))
+        #ax1.plot(x, m*x+b, ls="-", color=colour_list[2], label="r = %.2f" % (r_value))
+        ax1.plot(x, m*x+b, ls="-", color=colour_list[2])
+
 
     x = []
     y = []
@@ -154,8 +161,8 @@ def main():
     dbf = dbf[dbf.sprecip > 0.0]
     for site in np.unique(dbf.site):
         s = dbf[dbf.site == site]
-        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-                 color=colour_list[3], alpha=0.5, yerr=np.std(s.omega))
+        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="^",
+                 color=colour_list[3], alpha=0.9, yerr=np.std(s.omega))
         x.append(np.mean(s.sprecip))
         y.append(np.mean(s.omega))
     x = np.asarray(x)
@@ -167,7 +174,10 @@ def main():
     (m, b) = np.polyfit(x,y, 1)
     print(p_value, r_value, r_value**2)
     if p_value <= 0.05:
-        ax1.plot(x, m*x+b, ls="-", color=colour_list[3], label="r = %.2f" % (r_value))
+        #ax1.plot(x, m*x+b, ls="-", color=colour_list[3], label="r = %.2f" % (r_value))
+        ax1.plot(x, m*x+b, ls="-", color=colour_list[3])
+
+
 
     x = []
     y = []
@@ -176,8 +186,8 @@ def main():
     trf = trf[trf.sprecip > 0.0]
     for site in np.unique(trf.site):
         s = trf[trf.site == site]
-        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="o",
-                 color=colour_list[4], alpha=0.5, yerr=np.std(s.omega), zorder=0)
+        ax1.errorbar(np.mean(s.sprecip), np.mean(s.omega), ls=" ", marker="v",
+                 color=colour_list[4], alpha=0.9, yerr=np.std(s.omega), zorder=0)
         x.append(np.mean(s.sprecip))
         y.append(np.mean(s.omega))
     x = np.asarray(x)
@@ -192,22 +202,18 @@ def main():
     #    ax1.plot(x, m*x+b, ls="-", color=colour_list[3])
 
     # Add legned, the above is in a loop so we can't do it then
-    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="o",
-             color=colour_list[0], label='C3G', alpha=0.5, yerr=np.std(s.omega),
-             xerr=np.std(s.sprecip))
+    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="s",
+             color=colour_list[0], label='GRA ; r = 0.46', alpha=0.9, yerr=np.std(s.omega))
+
 
     ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="o",
-             color=colour_list[1], label='ENF', alpha=0.5, yerr=np.std(s.omega),
-             xerr=np.std(s.sprecip))
-    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="o",
-             color=colour_list[2], label='EBF', alpha=0.5, yerr=np.std(s.omega),
-             xerr=np.std(s.sprecip))
-    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="o",
-             color=colour_list[3], label='DBF', alpha=0.5, yerr=np.std(s.omega),
-             xerr=np.std(s.sprecip))
-    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="o",
-             color=colour_list[4], label='TRF', alpha=0.5, yerr=np.std(s.omega),
-             xerr=np.std(s.sprecip))
+             color=colour_list[1], label='ENF ; r = 0.40', alpha=0.9, ms=8, yerr=np.std(s.omega))
+    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="^",
+             color=colour_list[3], label='DBF ; r = 0.64', alpha=0.9, ms=8, yerr=np.std(s.omega))
+    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="p",
+             color=colour_list[2], label='EBF', alpha=0.9, ms=8, yerr=np.std(s.omega))
+    ax1.errorbar(np.zeros(1)*np.nan, np.zeros(1)*np.nan, ls=" ", marker="v",
+             color=colour_list[4], label='TRF', alpha=0.9, ms=8, yerr=np.std(s.omega))
 
     """
     from scipy.stats import linregress
@@ -238,17 +244,17 @@ def main():
     #plt.setp(ax1.get_yticklabels(), visible=False)
 
     ax1.set_ylim(0, 0.8)
-    #ax1.set_xlim(0, 600)
-    ax1.locator_params(nbins=6, axis="x")
+    ax1.set_xlim(0, 600)
+    ax1.locator_params(nbins=3, axis="x")
     ax1.locator_params(nbins=6, axis="y")
-    ax1.legend(numpoints=1, ncol=1, loc="best", frameon=False)
+    ax1.legend(numpoints=1, ncol=1, loc="upper left", frameon=False)
 
     odir = "/Users/%s/Dropbox/Decoupling_paper/figures/figs" % \
             (os.getlogin())
     plt.savefig(os.path.join(odir, "omega_vs_sprecip.pdf"),
                     bbox_inches='tight', pad_inches=0.1)
 
-    plt.show()
+    #plt.show()
 
 if __name__ == "__main__":
 
