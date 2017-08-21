@@ -447,7 +447,7 @@ class FitOmega(object):
                     (df['Rn_fqcOK'] == 1) &
                     (df['Ta_fqcOK'] == 1)]
 
-
+            # Turn on if EB correcting - i.e. Fig A2
             # Correct based on method 4 from Wohlfahrt et al. Agricultural and
             # Forest Meteorology 149
             #if top > 0.0:
@@ -581,6 +581,14 @@ class FitOmega(object):
             d['gs'] = np.nanmean(gs)
         else:
             d['gs'] = -999.9
+
+        # Turn on for energy balance correction. Need G for this to make sense
+        # but G is set to 0 if missing. We basically need to set these calcs
+        # to bad.
+        #if no_G:
+        #    d['ga'] = -999.9
+        #    d['gs'] = -999.9
+        #    d['omega'] = -999.9
 
         return df, d
 
