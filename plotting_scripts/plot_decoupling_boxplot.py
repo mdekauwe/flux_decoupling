@@ -32,7 +32,8 @@ def main():
     #print(len(df))
     #print(len(np.unique(df.site)))
 
-    pfts = ['ENF','EBF','DBF','TRF','SAV','SHB','C3G','C3C']
+    #pfts = ['ENF','EBF','DBF','TRF','SAV','SHB','C3G','C3C', 'C4C']
+    pfts = ['ENF','EBF','DBF','TRF','SAV','SHB','GRA','C3C', 'C4C']
 
     sns.set_style("ticks")
     sns.set_style({"xtick.direction": "in","ytick.direction": "in"})
@@ -53,6 +54,9 @@ def main():
     plt.rcParams['legend.fontsize'] = 14
     plt.rcParams['xtick.labelsize'] = 12
     plt.rcParams['ytick.labelsize'] = 12
+
+    m1 = df.groupby(['PFT'])['omega'].median()
+    print( m1 )
 
     ax = fig.add_subplot(111)
 
@@ -92,7 +96,7 @@ def main():
                 "Fluxnet_decoupling_boxplot.pdf"),
                 bbox_inches='tight', pad_inches=0.1)
 
-    plt.show()
+    #plt.show()
 
 if __name__ == "__main__":
 
