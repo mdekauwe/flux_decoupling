@@ -83,7 +83,9 @@ def main(infname, ofname):
     df.loc[df.PFT == "CSH", "PFT"] = "SHB"
     df.loc[df.PFT == "OSH", "PFT"] = "SHB"
     df.loc[df.PFT == "WSA", "PFT"] = "SAV"
-    df.loc[df.PFT == "GRA", "PFT"] = "C3G"
+
+    # Don't seperate grasses for this analysis.
+    #df.loc[df.PFT == "GRA", "PFT"] = "C3G"
     df.loc[df.PFT == "CRO", "PFT"] = "C3C"
     df.loc[df.PFT == "TropRF", "PFT"] = "TRF"
 
