@@ -28,7 +28,16 @@ def main():
 
     print(len(df))
     print(df['PFT'].value_counts())
-    
+
+    print(len(np.unique(df['reference'])))
+
+    print("\nInformation for table\n")
+
+    for pft in pfts:
+        p = df[df.PFT == pft]
+        print(pft, "&", round(p.omega.mean(),2), "&", round(p.omega.std(),2),
+              "&", round(p.omega.min(),2), "&", round(p.omega.max(),2), "&",  len(p), "\\")
+
 
 if __name__ == "__main__":
 
