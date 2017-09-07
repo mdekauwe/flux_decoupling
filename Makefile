@@ -11,7 +11,7 @@ all: data figs paper
 data: $(DATA_DIR)/omega_fluxnet_PM.csv \
 	  $(DATA_DIR)/omega_fluxnet_screened_PM.csv
 figs: $(FIG_DIR)/Fluxnet_decoupling_boxplot.pdf \
-		$(FIG_DIR)/omega_vs_MAP.pdf \
+		$(FIG_DIR)/omega_vs_sprecip.pdf \
 		$(FIG_DIR)/omega_vs_wind.pdf \
 		$(FIG_DIR)/omega_vs_lai.pdf \
 		$(FIG_DIR)/omega_ENF.pdf
@@ -34,8 +34,11 @@ $(FIG_DIR)/Fluxnet_decoupling_boxplot.pdf:	$(PLT_DIR)/plot_decoupling_boxplot.py
 											$(DATA_DIR)/*.csv
 	python $<
 
+$(FIG_DIR)/omega_ENF.pdf:	$(PLT_DIR)/plot_omega_ENF.py \
+							$(DATA_DIR)/*.csv
+	python $<
 
-$(FIG_DIR)/omega_vs_MAP.pdf:	$(PLT_DIR)/plot_omega_vs_MAP.py \
+$(FIG_DIR)/omega_vs_sprecip..pdf:	$(PLT_DIR)/plot_omega_vs_3mth_rainfall.py \
 								$(DATA_DIR)/*.csv
 	python $<
 
@@ -47,15 +50,13 @@ $(FIG_DIR)/omega_vs_lai.pdf:	$(PLT_DIR)/plot_omega_vs_lai.py \
 								$(DATA_DIR)/*.csv
 	python $<
 
-$(FIG_DIR)/omega_ENF.pdf:	$(PLT_DIR)/plot_omega_ENF.py \
-							$(DATA_DIR)/*.csv
-	python $<
+
 
 # figure.pdf
 ##
 $(TEX_DIR)/figures.pdf:	$(TEX_DIR)/figures.tex \
 						$(FIG_DIR)/Fluxnet_decoupling_boxplot.pdf \
-						$(FIG_DIR)/omega_vs_MAP.pdf \
+						$(FIG_DIR)/omega_vs_sprecip.pdf \
 						$(FIG_DIR)/omega_vs_wind.pdf \
 						$(FIG_DIR)/omega_vs_lai.pdf \
 						$(FIG_DIR)/omega_ENF.pdf
